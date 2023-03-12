@@ -19,8 +19,10 @@ namespace BusinessLogic.Validators
                 .NotEmpty()
                 .WithMessage("Password is required")
                 .MinimumLength(6)
-                .WithMessage("Password must be more than 6 symbols")
-                .Equal(request => request.ReEnteredPassword)
+                .WithMessage("Password must be more than 6 symbols");
+
+            RuleFor(request => request.ReEnteredPassword)
+                .Equal(request => request.Password)
                 .WithMessage("Password and re-entered password must match");
         }
     }

@@ -55,12 +55,7 @@ namespace BusinessLogic.Services
 
             game = game ?? throw new BusinessException("There is no game with this id");
 
-            if (game.PlayerAId == playerBId)
-            {
-                throw new ForbiddenException("Game was created by this player");
-            }
-
-            if (game.PlayerBId != null)
+            if (game.PlayerAId == playerBId || game.PlayerBId != null)
             {
                 throw new ForbiddenException("Another player cannot be added to this game");
             }
@@ -78,14 +73,7 @@ namespace BusinessLogic.Services
 
             game = game ?? throw new BusinessException("There is no game with this id");
 
-            try
-            {
-                game.UpdateTheField(playerId, request.I, request.J);
-            }
-            catch (IndexOutOfRangeException)
-            {
-                throw new BusinessException("Indexes i or j are out of range");
-            }
+            game.UpdateTheField(playerId, request.I, request.J);
 
             if (game.IsOver)
             {
