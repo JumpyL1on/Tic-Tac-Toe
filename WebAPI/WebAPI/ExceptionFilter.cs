@@ -1,10 +1,10 @@
-﻿using Habr.Common.Exceptions;
+﻿using Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Habr.WebApp
+namespace WebAPI
 {
     public class ExceptionFilter : IExceptionFilter
     {

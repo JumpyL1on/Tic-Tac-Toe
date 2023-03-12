@@ -1,8 +1,9 @@
-﻿using Habr.Common.Requests;
+﻿using BusinessLogic.Interfaces;
+using Common;
+using Common.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WebAPI.Interfaces;
 
 namespace WebAPI.Controllers
 {
@@ -31,8 +32,8 @@ namespace WebAPI.Controllers
         [HttpPost("sign-up")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> SignUpPlayerAsync([FromBody] SignUpPlayerRequest request)
         {
             await _playerService.SignUpPlayerAsync(request);

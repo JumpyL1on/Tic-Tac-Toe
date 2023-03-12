@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BusinessLogic.Interfaces;
+using Common.Requests;
+using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Entities;
-using WebAPI.Interfaces;
-using WebAPI.Requests;
 
 namespace WebAPI.Controllers
 {
@@ -64,10 +64,10 @@ namespace WebAPI.Controllers
 
         [HttpPatch("{id:int}/field")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> MakeAPlayerMoveAsync([FromRoute] int id, [FromBody] MakeAPlayerMoveRequest request)
         {
             var player = await _userManager.GetUserAsync(HttpContext.User);
