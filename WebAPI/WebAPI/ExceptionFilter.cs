@@ -28,10 +28,6 @@ namespace WebAPI
                     HandleException(context, StatusCodes.Status403Forbidden);
 
                     break;
-                case NotFoundException:
-                    HandleException(context, StatusCodes.Status404NotFound);
-
-                    break;
                 default:
                     HandleException(context, StatusCodes.Status500InternalServerError);
 
