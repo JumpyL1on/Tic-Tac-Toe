@@ -101,7 +101,11 @@ namespace DataAccess.Entities
 
         public void UpdateTheField(int playerId, int i, int j)
         {
-            if (WhoseMove == WhoseMove.PlayerA && PlayerAId == playerId)
+            if (Field[i, j] != null)
+            {
+                throw new ForbiddenException("Thic cell is already marked with a cross or a nought");
+            }
+            else if (WhoseMove == WhoseMove.PlayerA && PlayerAId == playerId)
             {
                 Field[i, j] = Mark.Cross;
                 WhoseMove = WhoseMove.PlayerB;
