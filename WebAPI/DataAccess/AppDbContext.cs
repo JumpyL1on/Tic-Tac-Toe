@@ -12,9 +12,12 @@ namespace DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connection = "Server=(localdb)\\mssqllocaldb;Database=tic-tac-toe;Trusted_Connection=True;";
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connection = "Server=(localdb)\\mssqllocaldb;Database=tic-tac-toe;Trusted_Connection=True;";
 
-            optionsBuilder.UseSqlServer(connection);
+                optionsBuilder.UseSqlServer(connection);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
