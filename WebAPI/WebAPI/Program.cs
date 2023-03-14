@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<DbContext, AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity();
 
@@ -25,13 +25,6 @@ builder.Services
     .AddSwaggerGen();
 
 var app = builder.Build();
-
-using var scope = ((IApplicationBuilder) app).ApplicationServices.CreateScope();
-{
-    var appDbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
-
-    await appDbContext.Database.MigrateAsync();
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
