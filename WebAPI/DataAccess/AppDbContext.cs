@@ -10,6 +10,10 @@ namespace DataAccess
         public DbSet<Game> Games { get; set; } = null!;
         public DbSet<Field> Fields { get; set; } = null!;
 
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -9,6 +9,7 @@ services:
           - "7104:80"
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
+          - ConnectionStrings:Default=Server=localhost,1433;Database=tic-tac-toe;User=mssql;Password=S3cur3P@ssW0rd!;
         depends_on:
           - db
     db:
@@ -16,4 +17,5 @@ services:
         ports:
           - "1433:1433"
         environment:
-            ACCEPT_EULA: "Y"
+          - MSSQL_SA_PASSWORD=S3cur3P@ssW0rd!
+          - ACCEPT_EULA=Y

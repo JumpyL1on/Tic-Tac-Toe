@@ -10,6 +10,7 @@ using BusinessLogic.Services;
 using BusinessLogic.Validators;
 using DataAccess.Entities;
 using DataAccess;
+using Microsoft.OpenApi.Models;
 
 namespace WebAPI
 {
@@ -99,6 +100,40 @@ namespace WebAPI
             services.AddValidatorsFromAssemblyContaining<SignUpPlayerRequestValidator>();
 
             return services.AddFluentValidationAutoValidation();
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            return services
+                .AddEndpointsApiExplorer()
+                .AddSwaggerGen(setupAction =>
+                {
+                    setupAction.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+
+                    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                }
+                            },
+                            new List<string>()
+                        }
+                    });
+                });
         }
     }
 }
