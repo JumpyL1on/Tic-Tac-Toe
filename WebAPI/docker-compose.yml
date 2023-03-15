@@ -1,15 +1,22 @@
 services:
+    container_name: web-api-with-db
     api:
         build:
           context: .
           dockerfile: Dockerfile
+        image: web-api
         ports:
-          - "7104:80"
+          - "5205:80"
+          - "7104:443"
         environment:
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+          - ASPNETCORE_Kestrel__Certificates__Default__Password=S3cur3P@ssW0rd!
+          - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
           - ConnectionStrings:Default=Server=db;Database=tic-tac-toe;User ID=SA;Password=S3cur3P@ssW0rd!;Trust Server Certificate=True;
+        volumes:
+          - ~/.aspnet/https:/https:ro
         depends_on:
           - db
-    
     db:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
