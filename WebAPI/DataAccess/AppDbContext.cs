@@ -2,6 +2,8 @@
 using DataAccess.EntityConfigurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace DataAccess
 {
@@ -16,12 +18,17 @@ namespace DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            if (optionsBuilder.IsConfigured)
             {
-                var connection = "Server=(localdb)\\mssqllocaldb;Database=tic-tac-toe;Trusted_Connection=True;";
-
-                optionsBuilder.UseSqlServer(connection);
+                return;
             }
+
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("Default"));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
