@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<DbContext, AppDbContext>();
+builder.Services.AddDbContext<DbContext, AppDbContext>(optionsAction =>
+    optionsAction.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
+);
 
 builder.Services.AddIdentity();
 
@@ -28,6 +30,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using var scope = ((IApplicationBuilder)app).ApplicationServices.CreateScope();
+
+    var appDbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
+
+    await appDbContext.Database.MigrateAsync();
 }
 
 app.UseHttpsRedirection();

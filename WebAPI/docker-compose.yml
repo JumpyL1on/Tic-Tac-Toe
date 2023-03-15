@@ -1,5 +1,3 @@
-version: "3.4"
-
 services:
     api:
         build:
@@ -8,10 +6,10 @@ services:
         ports:
           - "7104:80"
         environment:
-          - ASPNETCORE_ENVIRONMENT=Development
-          - ConnectionStrings:Default=Server=localhost,1433;Database=tic-tac-toe;User=mssql;Password=S3cur3P@ssW0rd!;
+          - ConnectionStrings:Default=Server=db;Database=tic-tac-toe;User ID=SA;Password=S3cur3P@ssW0rd!;Trust Server Certificate=True;
         depends_on:
           - db
+    
     db:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
