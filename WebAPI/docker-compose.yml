@@ -1,5 +1,4 @@
 services:
-    container_name: web-api-with-db
     api:
         build:
           context: .
