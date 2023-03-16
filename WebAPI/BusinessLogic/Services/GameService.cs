@@ -17,9 +17,11 @@ namespace BusinessLogic.Services
 
         public async Task CreateGameAsync(int playerAId)
         {
-            if (await _appDbContext.Set<Game>().AnyAsync(game => game.Result == null && game.PlayerAId == playerAId))
+            if (await _appDbContext
+                .Set<Game>()
+                .AnyAsync(game => game.Result == null && (game.PlayerAId == playerAId || game.PlayerBId == playerAId)))
             {
-                throw new ForbiddenException("Player cannot create 2nd game at the same time");
+                throw new ForbiddenException("Player cannot create game if he is already in the game");
             }
 
             var game = new Game(playerAId);
@@ -37,9 +39,14 @@ namespace BusinessLogic.Services
 
             game = game ?? throw new BusinessException("There is no game with this id");
 
-            if (game.Result != null || game.PlayerAId != playerAId)
+            if (game.Result != null)
             {
-                throw new ForbiddenException("Game cannot be closed or is not created by this player");
+                throw new BusinessException("Game is already finished");
+            }
+
+            if (game.PlayerAId != playerAId || game.PlayerBId != null)
+            {
+                throw new ForbiddenException("Game is not created by this player or was already started");
             }
 
             _appDbContext.Set<Game>().Remove(game);
@@ -55,9 +62,14 @@ namespace BusinessLogic.Services
 
             game = game ?? throw new BusinessException("There is no game with this id");
 
+            if (game.Result != null)
+            {
+                throw new BusinessException("Game is already finished");
+            }
+
             if (game.PlayerAId == playerBId || game.PlayerBId != null)
             {
-                throw new ForbiddenException("Another player cannot be added to this game");
+                throw new ForbiddenException("Game was created by this player or was already started");
             }
 
             game.AddAnotherPlayer(playerBId);
@@ -69,9 +81,15 @@ namespace BusinessLogic.Services
         {
             var game = await _appDbContext
                 .Set<Game>()
+                .Include(game => game.Field)
                 .SingleOrDefaultAsync(game => game.Id == id);
 
             game = game ?? throw new BusinessException("There is no game with this id");
+
+            if (game.Result != null)
+            {
+                throw new BusinessException("The game is already finished");
+            }
 
             game.UpdateTheField(playerId, request.I, request.J);
 

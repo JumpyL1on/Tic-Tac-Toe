@@ -103,7 +103,7 @@ namespace DataAccess.Entities
         {
             if (Field[i, j] != null)
             {
-                throw new ForbiddenException("Thic cell is already marked with a cross or a nought");
+                throw new BusinessException("Thic cell is already marked with a cross or a nought");
             }
             else if (WhoseMove == WhoseMove.PlayerA && PlayerAId == playerId)
             {
@@ -117,7 +117,7 @@ namespace DataAccess.Entities
             }
             else
             {
-                throw new ForbiddenException("Player cannot make a move");
+                throw new ForbiddenException("Player doesnt have access to this game or it is not his turn now");
             }
         }
 
