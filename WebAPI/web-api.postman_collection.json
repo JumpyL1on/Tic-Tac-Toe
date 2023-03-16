@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "71f417e9-b439-4a09-a359-f5ca23167822",
+		"name": "web-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Создание новой игры",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/games",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удаление игры, если игрок передумал играть",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/games/:id",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"games",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавление другого игрока в игру",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/games/:id/playerBId",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"games",
+						":id",
+						"playerBId"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Осуществление хода каким-либо игроком",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"i\": \"0\",\r\n    \"j\": \"0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/games/:id/field",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"games",
+						":id",
+						"field"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение электронной почты текущего игрока",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/players/current/email",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"players",
+						"current",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Регистрация игрока",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"player@email\",\r\n    \"password\": \"password\",\r\n    \"reEnteredPassword\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/players/sign-up",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"players",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Аутентификация игрока",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"player@email\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/players/sign-in",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"players",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление токена доступа",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"MoLIuXRdNyjslbQP2OPmrfkXjTmr9d9X6PKzJKJk8s0aawPuFYA4b1ZF+L2uZ9F2H274jCNA9WOKoJXQwczXXA==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/players/refresh-access-token",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"players",
+						"refresh-access-token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "https://localhost:7104/api",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzdHJpbmdAc3RyIiwiZXhwIjoxNjc4OTg5MDY2LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTA0IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA3MyJ9.Yt1pE2t2tQQkIMwDa_u2l5FX_x-oe4JUn-w3Qb92I_k",
+			"type": "default"
+		},
+		{
+			"key": "another-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhbm90aGVyU3RyaW5nQHN0ciIsImV4cCI6MTY3ODk4OTA5NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzEwNCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNzMifQ.gxTrWEdwRVOQwiw_tveFRlYWn4E4D7PZ3zxDHKUbt5U",
+			"type": "default"
+		}
+	]
+}
